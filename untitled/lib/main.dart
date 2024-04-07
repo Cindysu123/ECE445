@@ -16,17 +16,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
-  bool _isLoggedIn = false; // Track login state
+  bool _isLoggedIn = false;
+  Map<String, dynamic>? _userData; // Hold the logged-in user's data
 
-  // Adjust your pages based on whether the user is logged in
-  List<Widget> get _pages => _isLoggedIn
-      ? [
+  List<Widget> get _pages => [
     const HomePage(),
     const TrendPage(),
     const LocationPage(),
-    const SettingsPage(),
-  ]
-      : [const LoginPage()];
+    SettingsPage(userData: _userData), // Pass userData to SettingsPage
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,21 +32,21 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void _login() {
+  void _login(Map<String, dynamic> userData) {
     setState(() {
-      _isLoggedIn = true; // Update based on actual login logic
+      _isLoggedIn = true;
+      _userData = userData; // Save the user data
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // Use MaterialApp as a top-level wrapper for MaterialApp to control the navigation from anywhere
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: _pages.elementAt(_selectedIndex), // Display the current page
+          child: _isLoggedIn ? _pages.elementAt(_selectedIndex) : LoginPage(onLoginSuccess: _login),
         ),
-        bottomNavigationBar: _isLoggedIn // Show navigation bar only if logged in
+        bottomNavigationBar: _isLoggedIn
             ? BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
@@ -58,6 +56,7 @@ class _MyAppState extends State<MyApp> {
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
           onTap: _onItemTapped,
         )
             : null,

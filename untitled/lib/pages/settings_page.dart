@@ -3,6 +3,7 @@ import '../widgets/edit_user_info_dialog.dart';
 
 class SettingsPage extends StatelessWidget {
   final Map<String, dynamic>? userData;
+
   const SettingsPage({Key? key, this.userData}) : super(key: key);
 
   @override
@@ -11,8 +12,8 @@ class SettingsPage extends StatelessWidget {
     final Map<String, dynamic> defaultUserData = {
       'username': 'Default User',
       'gender': 1, // Assuming 1 for Male, 0 for Female
-      'age': 'Not set',
-      'weight': 'Not set',
+      'age': '1',
+      'weight': '1',
     };
 
     // Use userData if provided, otherwise fallback to defaultUserData
@@ -96,9 +97,9 @@ class SettingsPage extends StatelessWidget {
                       const SizedBox(height: 10), // Spacing between items
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Text('Activity Level: '),
-                          Text('Active'),
+                          Text('${user['physical_activity']}'),
                         ],
                       ),
                     ],

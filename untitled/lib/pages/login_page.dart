@@ -4,7 +4,9 @@ import 'package:http/http.dart' as http;
 import './settings_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final Function onLoginSuccess;
+
+  const LoginPage({Key? key, required this.onLoginSuccess}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -32,15 +34,15 @@ class _LoginPageState extends State<LoginPage> {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      if (data['success']) {
-        final userData = data['userData'];
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => SettingsPage(userData: userData),
-          ),
-        );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['success']) {
+          widget.onLoginSuccess(data['userData']); // Now passing userData to the callback
+        } else {
+          _showDialog('Login Failed', 'Invalid credentials.');
+        }
       } else {
-        _showDialog('Login Failed', 'Invalid credentials.');
+        _showDialog('Login Failed', 'Something went wrong. Please try again.');
       }
     } else {
       _showDialog('Login Failed', 'Something went wrong. Please try again.');
