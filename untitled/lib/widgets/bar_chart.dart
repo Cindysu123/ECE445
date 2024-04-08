@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class MyBarChart extends StatelessWidget {
-  const MyBarChart({super.key});
+  final List<int> waterIntakeData;
+
+  const MyBarChart({Key? key, this.waterIntakeData = const [0, 0, 0, 0, 0, 0, 0]})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +19,35 @@ class MyBarChart extends StatelessWidget {
       width: chartWidth,
       child: BarChart(
         BarChartData(
+          backgroundColor: Colors.white,
           alignment: BarChartAlignment.spaceAround,
           maxY: 40,
           minY: 0,
+          barTouchData: BarTouchData(
+            enabled: false,
+          ),
           borderData: FlBorderData(show: false),
           gridData: FlGridData(
-              drawHorizontalLine: true,
-              drawVerticalLine: true,
-              horizontalInterval: 1,
-              verticalInterval: 1
+            drawHorizontalLine: true,
+            getDrawingHorizontalLine: (value) => FlLine(
+              color: Colors.grey[300],
+              strokeWidth: 1,
+            ),
+            drawVerticalLine: true,
+            getDrawingVerticalLine: (value) => FlLine(
+              color: Colors.grey[300],
+              strokeWidth: 1,
+            ),
           ),
           titlesData: FlTitlesData(
             show: true,
+            rightTitles: SideTitles(showTitles: false),
+            topTitles: SideTitles(showTitles: false),
             bottomTitles: SideTitles(
               showTitles: true,
-              getTextStyles: (context, value) => const TextStyle(color: Color(0xFF4A8BB1), fontWeight: FontWeight.bold),
+              getTextStyles: (context, value) => const TextStyle(
+                  color: Color(0xFF4A8BB1), fontWeight: FontWeight.bold, fontSize: 10),
+              margin: 10,
               getTitles: (double value) {
                 switch (value.toInt()) {
                   case 0:
@@ -51,11 +68,12 @@ class MyBarChart extends StatelessWidget {
                     return '';
                 }
               },
-              margin: 1,
             ),
             leftTitles: SideTitles(
               showTitles: true,
-              getTextStyles: (context, value) => const TextStyle(color: Color(0xFF4A8BB1), fontWeight: FontWeight.bold),
+              getTextStyles: (context, value) => const TextStyle(
+                  color: Color(0xFF4A8BB1), fontWeight: FontWeight.bold, fontSize: 10),
+              margin: 8,
               getTitles: (value) {
                 switch (value.toInt()) {
                   case 0:
@@ -72,18 +90,20 @@ class MyBarChart extends StatelessWidget {
                     return '';
                 }
               },
-              margin: 16,
             ),
           ),
-          barGroups: [
-            BarChartGroupData(x: 0, barRods: [BarChartRodData(y: 35, colors: [const Color(0xFF2a698e)], width: 20)]),
-            BarChartGroupData(x: 1, barRods: [BarChartRodData(y: 35, colors: [const Color(0xFF2a698e)], width: 20)]),
-            BarChartGroupData(x: 2, barRods: [BarChartRodData(y: 35, colors: [const Color(0xFF2a698e)], width: 20)]),
-            BarChartGroupData(x: 3, barRods: [BarChartRodData(y: 35, colors: [const Color(0xFF2a698e)], width: 20)]),
-            BarChartGroupData(x: 4, barRods: [BarChartRodData(y: 15, colors: [const Color(0xFF2a698e)], width: 20)]),
-            BarChartGroupData(x: 5, barRods: [BarChartRodData(y: 35, colors: [const Color(0xFF2a698e)], width: 20)]),
-            BarChartGroupData(x: 6, barRods: [BarChartRodData(y: 30, colors: [const Color(0xFF2a698e)], width: 20)]),
-          ],
+          barGroups: List.generate(waterIntakeData.length, (index) =>
+              BarChartGroupData(
+                x: index,
+                barRods: [
+                  BarChartRodData(
+                    y: waterIntakeData[index].toDouble(),
+                    colors: [const Color(0xFF2a698e)],
+                    width: 20,
+                  )
+                ],
+              ),
+          ),
         ),
       ),
     );
