@@ -20,8 +20,8 @@ class _MyAppState extends State<MyApp> {
   Map<String, dynamic>? _userData; // Hold the logged-in user's data
 
   List<Widget> get _pages => [
-    _isLoggedIn ? HomePage(username: _userData?['username'] ?? 'user1') : const HomePage(),
-    const TrendPage(),
+    _isLoggedIn ? HomePage(username: _userData?['username'] ?? 'user2') : const HomePage(),
+    TrendPage(username: _userData?['username'] ?? 'user2'),
     const LocationPage(),
     SettingsPage(userData: _userData),
   ];

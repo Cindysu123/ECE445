@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../widgets/curved_area_chart.dart';
 
 class TrendPage extends StatefulWidget {
-  const TrendPage({super.key});
+  final String username;
+  const TrendPage({super.key, this.username= 'user2'});
 
   @override
   State<TrendPage> createState(){
@@ -54,7 +55,7 @@ class _TrendPageState extends State<TrendPage> {
               ],
             ),
             const Text('2/2/24 - 2/29/24 >'),
-            const CurvedAreaChart()
+            CurvedAreaChart(username: widget.username)
           ],
         ),
       ),
