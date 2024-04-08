@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import './settings_page.dart';
+import './home_page.dart';
 
 class LoginPage extends StatefulWidget {
   final Function onLoginSuccess;
@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data['success']) {
-          widget.onLoginSuccess(data['userData']); // Now passing userData to the callback
+          widget.onLoginSuccess(data['userData']);
         } else {
           _showDialog('Login Failed', 'Invalid credentials.');
         }

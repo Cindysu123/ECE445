@@ -3,14 +3,33 @@ import 'package:intl/intl.dart';
 import '../widgets/bar_chart.dart';
 import '../widgets/manual_InputPopup.dart';
 import '../widgets/notification_popup.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final String username;
+  const HomePage({super.key, this.username = 'user2'});
+
+  Future<int> getTotalWaterIntakeForDate(String username, String date) async {
+    final response = await http.get(
+      Uri.parse('http://10.0.2.2:3001/api/water_intake/$username/$date'),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      // Make sure this is an int by parsing it if necessary.
+      return int.parse(data['total_water_intake'].toString());
+    } else {
+      // Handle the case where the server responds with an error.
+      throw Exception('Failed to load water intake');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     // Get current time
     DateTime now = DateTime.now();
+    String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     // Specify the CST time zone, UTC-6
     DateTime cstTime = now.toUtc().subtract(const Duration(hours: 6));
@@ -43,6 +62,43 @@ class HomePage extends StatelessWidget {
           Image.asset(
             'lib/assets/background.png',
             fit: BoxFit.cover,
+          ),
+          FutureBuilder<int>(
+            future: getTotalWaterIntakeForDate(username, today),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                double waterGoal = 500.0;
+                int waterIntake = snapshot.data ?? 0;
+                // Calculate the height of the rectangle based on waterIntake
+                double rectangleHeight = (waterIntake / waterGoal) * MediaQuery.of(context).size.height * (2 / 3); // Adjusted calculation
+
+                return Stack(
+                  alignment: Alignment.bottomCenter, // Align the rectangle to the bottom center
+                  children: [
+                    Positioned(
+                      bottom: MediaQuery.of(context).size.height * (0.7 / 3), // Positioning at 2/3 of the screen height
+                      child: Container(
+                        width: 180, // Fixed width for the rectangle
+                        height: rectangleHeight, // Dynamic height based on water intake
+                        color: Color(0xFF4a8bb1).withOpacity(0.5),
+                        alignment: Alignment.center, // Align text to the center of the container
+                        child: Text(
+                          "${waterIntake}ml", // Display the water intake value
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            },
           ),
           SingleChildScrollView(
             child: Center(

@@ -20,10 +20,10 @@ class _MyAppState extends State<MyApp> {
   Map<String, dynamic>? _userData; // Hold the logged-in user's data
 
   List<Widget> get _pages => [
-    const HomePage(),
+    _isLoggedIn ? HomePage(username: _userData?['username'] ?? 'user1') : const HomePage(),
     const TrendPage(),
     const LocationPage(),
-    SettingsPage(userData: _userData), // Pass userData to SettingsPage
+    SettingsPage(userData: _userData),
   ];
 
   void _onItemTapped(int index) {
@@ -46,20 +46,18 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: _isLoggedIn ? _pages.elementAt(_selectedIndex) : LoginPage(onLoginSuccess: _login),
         ),
-        bottomNavigationBar: _isLoggedIn
-            ? BottomNavigationBar(
+        bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: 'Trend'),
-            BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Location'),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+              BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: 'Trend'),
+              BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Location'),
+              BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.blue,
           unselectedItemColor: Colors.grey,
           onTap: _onItemTapped,
-        )
-            : null,
+        ),
       ),
     );
   }
