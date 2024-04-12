@@ -5,7 +5,14 @@ import 'dart:convert';
 
 class CurvedAreaChart extends StatefulWidget {
   final String username;
-  const CurvedAreaChart({super.key, required this.username});
+  final DateTime startDate;
+  final DateTime endDate;
+  const CurvedAreaChart({
+    Key? key,
+    required this.username,
+    required this.startDate,
+    required this.endDate,
+  }) : super(key: key);
 
   @override
   State<CurvedAreaChart> createState() => _CurvedAreaChartState();
@@ -13,30 +20,30 @@ class CurvedAreaChart extends StatefulWidget {
 
 class _CurvedAreaChartState extends State<CurvedAreaChart> {
   Future<List<FlSpot>> fetchWaterIntakeSpots() async {
-    final startDate = DateTime(2024, 02, 04);
-    final endDate = DateTime(2024, 02, 10);
-    // Use the provided username in the API call
-    final String username = widget.username;
+    final String startDateStr = widget.startDate.toIso8601String();
+    final String endDateStr = widget.endDate.toIso8601String();
 
     try {
-      final response = await http.get(Uri.parse('http://10.0.2.2:3001/api/water_intake_range/$username?start_date=${startDate.toIso8601String()}&end_date=${endDate.toIso8601String()}'));
+      final response = await http.get(
+          Uri.parse('http://10.0.2.2:3001/api/water_intake_range/${widget.username}?start_date=$startDateStr&end_date=$endDateStr')
+      );
       if (response.statusCode == 200) {
         List<dynamic> jsonResponse = jsonDecode(response.body);
         List<FlSpot> spots = [];
         for (var entry in jsonResponse) {
           final totalDailyIntake = int.tryParse(entry['total_daily_intake'].toString()) ?? 0;
           final date = DateTime.parse(entry['date']);
-          final difference = date.difference(startDate).inDays;
+          final difference = date.difference(widget.startDate).inDays;
           spots.add(FlSpot(difference.toDouble(), totalDailyIntake.toDouble()));
         }
         return spots;
       } else {
-        print('Server responded with error status: ${response.statusCode}');
+        // print('Server responded with error status: ${response.statusCode}');
         throw Exception('Failed to load water intake data');
       }
     } catch (e) {
-      print('Error fetching water intake data: $e');
-      return List.generate(endDate.difference(startDate).inDays + 1, (index) => FlSpot(index.toDouble(), 0));
+      // print('Error fetching water intake data: $e');
+      return List.generate(widget.endDate.difference(widget.startDate).inDays + 1, (index) => FlSpot(index.toDouble(), 0));
     }
   }
 
@@ -123,7 +130,7 @@ class _CurvedAreaChartState extends State<CurvedAreaChart> {
                       getTooltipItems: (List<LineBarSpot> touchedSpots) {
                         return touchedSpots.map((touchedSpot) {
                           final date = DateTime(2024, 02, 04).add(Duration(days: touchedSpot.x.toInt()));
-                          final textStyle = TextStyle(
+                          const textStyle = TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           );

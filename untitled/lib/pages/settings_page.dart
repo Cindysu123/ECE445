@@ -11,7 +11,7 @@ class SettingsPage extends StatelessWidget {
     // Default user data, adjust according to your needs or fetch from a local store
     final Map<String, dynamic> defaultUserData = {
       'username': 'Default User',
-      'gender': 1, // Assuming 1 for Male, 0 for Female
+      'gender': 1,
       'age': '1',
       'weight': '1',
     };
@@ -37,24 +37,24 @@ class SettingsPage extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.all(20), // Padding inside the container
-                  margin: const EdgeInsets.all(10), // Margin outside the container
+                  margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10), // Optional: to add rounded corners
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 5,
                         blurRadius: 7,
-                        offset: const Offset(0, 3), // changes position of shadow
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min, // Container size fits the content
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        padding: const EdgeInsets.only(top: 0, bottom: 0.0, left:300), // Ensure no padding is applied
+                        padding: const EdgeInsets.only(top: 0, bottom: 0.0, left:300),
                         margin: EdgeInsets.zero,
                         child: IconButton(
                           icon: const Icon(Icons.edit),
@@ -75,14 +75,14 @@ class SettingsPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Gender: '),
+                          const Text('Gender: '),
                           Text(user['gender'] == 0 ? 'Female' : 'Male'),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Age: '),
+                          const Text('Age: '),
                           Text('${user['age']}'),
                         ],
                       ),
@@ -90,7 +90,7 @@ class SettingsPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Weight: '),
+                          const Text('Weight: '),
                           Text('${user['weight']}kg'),
                         ],
                       ),
@@ -98,7 +98,7 @@ class SettingsPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Activity Level: '),
+                          const Text('Activity Level: '),
                           Text('${user['physical_activity']}'),
                         ],
                       ),

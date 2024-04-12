@@ -80,7 +80,7 @@ class HomePage extends StatelessWidget {
             future: getTotalWaterIntakeForDate(username, today),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
@@ -97,11 +97,11 @@ class HomePage extends StatelessWidget {
                       child: Container(
                         width: 180, // Fixed width for the rectangle
                         height: rectangleHeight, // Dynamic height based on water intake
-                        color: Color(0xFF4a8bb1).withOpacity(0.5),
+                        color: const Color(0xFF4a8bb1).withOpacity(0.5),
                         alignment: Alignment.center, // Align text to the center of the container
                         child: Text(
                           "${waterIntake}ml", // Display the water intake value
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -127,9 +127,9 @@ class HomePage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
-                          "Today’s Water Input: ${waterIntake}",
+                          "Today’s Water Input: $waterIntake",
                           // "Today’s Water Input: ${20}",
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Color(0xFF4a8bb1),
                               fontWeight: FontWeight.bold
                           ),
@@ -171,11 +171,11 @@ class HomePage extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 20),
+                          padding: const EdgeInsets.only(left: 20),
                           child: Text(
                             'You got ${waterIntake/500} of today’s goal, keep it going!',
                             textAlign: TextAlign.left,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF4a8bb1),
                               fontWeight: FontWeight.bold,
                             ),
@@ -220,7 +220,7 @@ class HomePage extends StatelessWidget {
                       future: getWaterIntakeForChart(username, today),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
                           return Center(child: Text('Error: ${snapshot.error}'));
                         } else {

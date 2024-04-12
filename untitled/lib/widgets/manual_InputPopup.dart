@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class ManualInputPopup extends StatefulWidget {
@@ -10,7 +11,7 @@ class ManualInputPopup extends StatefulWidget {
 }
 
 class _ManualInputPopupState extends State<ManualInputPopup> {
-  double _currentSliderValue = 250; // Initial slider value
+  double _currentSliderValue = 250;
 
   @override
   Widget build(BuildContext context) {

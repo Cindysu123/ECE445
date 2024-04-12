@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
   bool _isLoggedIn = false;
-  Map<String, dynamic>? _userData; // Hold the logged-in user's data
+  Map<String, dynamic>? _userData;
 
   List<Widget> get _pages => [
     _isLoggedIn ? HomePage(username: _userData?['username'] ?? 'user2') : const HomePage(),
@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: _isLoggedIn ? _pages.elementAt(_selectedIndex) : LoginPage(onLoginSuccess: _login),
         ),
-        bottomNavigationBar: BottomNavigationBar(
+        bottomNavigationBar: _isLoggedIn ? BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: 'Trend'),
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
           selectedItemColor: Colors.blue,
           unselectedItemColor: Colors.grey,
           onTap: _onItemTapped,
-        ),
+        ) : null,
       ),
     );
   }

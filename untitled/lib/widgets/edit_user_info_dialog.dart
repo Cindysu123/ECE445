@@ -12,10 +12,10 @@ class EditUserInfoDialog extends StatefulWidget {
 class _EditUserInfoDialogState extends State<EditUserInfoDialog> {
   final _formKey = GlobalKey<FormState>();
   String _userName = '';
-  String _gender = 'Male'; // Default value
+  String _gender = 'Male';
   String _weight = '';
-  String _activityLevel = 'Non-active'; // Default value
-  String _age = ''; // Added age variable
+  String _activityLevel = 'Non-active';
+  String _age = '';
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,6 @@ class _EditUserInfoDialogState extends State<EditUserInfoDialog> {
                 keyboardType: TextInputType.number,
                 onSaved: (value) => _weight = value!,
               ),
-              // Age TextFormField added here
               TextFormField(
                 initialValue: _age,
                 decoration: const InputDecoration(labelText: 'Age'),

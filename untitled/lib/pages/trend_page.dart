@@ -14,6 +14,30 @@ class TrendPage extends StatefulWidget {
 class _TrendPageState extends State<TrendPage> {
   // Variable to keep track of the selected index
   int selectedIndex = 0; // By default, the first one is selected
+  DateTime startDate = DateTime(2024, 02, 04); // Week start date
+  DateTime endDate = DateTime(2024, 02, 10); // Week end date
+  void updateDateRange(int index) {
+    DateTime start;
+    DateTime end;
+    // Update the range based on the index
+    if (index == 0) {
+      start = DateTime(2024, 02, 04);
+      end = DateTime(2024, 02, 10);
+    } else if (index == 1) {
+      start = DateTime(2024, 02, 01);
+      end = DateTime(2024, 02, 28); // Adjust for correct number of days in February
+    } else if (index == 2) {
+      start = DateTime(2024, 01, 01);
+      end = DateTime(2024, 12, 31);
+    } else {
+      return; // If the index is out of range, do nothing
+    }
+    setState(() {
+      selectedIndex = index;
+      startDate = start;
+      endDate = end;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +60,15 @@ class _TrendPageState extends State<TrendPage> {
                   TextButton(
                     style: TextButton.styleFrom(
                       // Check if the button is selected
-                      foregroundColor: selectedIndex == index ? Colors.white : const Color(0xFF2A698E), backgroundColor: selectedIndex == index ? const Color(0xFF2A698E) : Colors.white, // This is for text color
+                      foregroundColor: selectedIndex == index ? Colors.white : const Color(0xFF2A698E),
+                      backgroundColor: selectedIndex == index ? const Color(0xFF2A698E) : Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0),
                         side: const BorderSide(color: Color(0xFF2A698E)),
                       ),
                     ),
                     onPressed: () {
-                      setState(() {
-                        selectedIndex = index; // Update the selected index
-                      });
+                      updateDateRange(index); // Call the function to update the date range
                     },
                     child: Text(
                       // Assign the text based on index
@@ -54,8 +77,13 @@ class _TrendPageState extends State<TrendPage> {
                   ),
               ],
             ),
-            const Text('2/2/24 - 2/29/24 >'),
-            CurvedAreaChart(username: widget.username)
+            Text("${startDate.toIso8601String()} - ${endDate.toIso8601String()}"),
+            CurvedAreaChart(
+                key: ValueKey("$startDate to $endDate"), // Use the date range as the ValueKey
+                username: widget.username,
+                startDate: startDate,
+                endDate: endDate
+            )
           ],
         ),
       ),

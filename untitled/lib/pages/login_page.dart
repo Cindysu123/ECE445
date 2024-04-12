@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import './home_page.dart';
+
+import './signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   final Function onLoginSuccess;
@@ -32,24 +33,20 @@ class _LoginPageState extends State<LoginPage> {
       }),
     );
 
+    setState(() {
+      _isLoading = false;
+    });
+
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        if (data['success']) {
-          widget.onLoginSuccess(data['userData']);
-        } else {
-          _showDialog('Login Failed', 'Invalid credentials.');
-        }
+      if (data['success']) {
+        widget.onLoginSuccess(data['userData']);
       } else {
-        _showDialog('Login Failed', 'Something went wrong. Please try again.');
+        _showDialog('Login Failed', 'Invalid credentials.');
       }
     } else {
       _showDialog('Login Failed', 'Something went wrong. Please try again.');
     }
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   void _showDialog(String title, String content) {
@@ -75,32 +72,72 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: Center(
-        child: _isLoading
-            ? const CircularProgressIndicator()
-            : Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _usernameController,
-                decoration: const InputDecoration(labelText: 'Username'),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.white, Color(0xFFafd0e5)],
+          ),
+        ),
+        child: Center(
+          child: _isLoading ? const CircularProgressIndicator() : Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
-              TextField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Log In',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF2A698E)),
+                  ),
+                  TextField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(labelText: 'Username'),
+                  ),
+                  TextField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(labelText: 'Password'),
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("First time user?"),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignUpPage()),
+                          );
+                        },
+                        child: Text(
+                          "Sign Up Here",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _login,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF4a8bb1),
+                    ),
+                    child: const Text('Login'),
+                  ),
+                ],
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _login,
-                child: const Text('Login'),
-              ),
-            ],
+            ),
           ),
         ),
       ),

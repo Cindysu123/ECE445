@@ -11,7 +11,6 @@ class NotificationPopup extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
 
     return GestureDetector(
-      // Detect tap on the background
       onTap: onClose,
       child: Container(
         width: screenSize.width,
@@ -20,13 +19,12 @@ class NotificationPopup extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              top: 60, // Aligns to the top of the Stack
-              right: 40, // Aligns to the left of the Stack
+              top: 60,
+              right: 40,
               child: GestureDetector(
-                // Prevent taps on the popup from closing it
                 onTap: () {},
                 child: Card(
-                  margin: const EdgeInsets.all(8.0), // Add some margin if needed
+                  margin: const EdgeInsets.all(8.0),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -40,12 +38,16 @@ class NotificationPopup extends StatelessWidget {
                                 Text(
                                     "1:30pm",
                                     textAlign: TextAlign.left,
-                                    style: TextStyle(color: Color(0xFFA6A6A6))
+                                    style: TextStyle(
+                                        color: Color(0xFFA6A6A6)
+                                    )
                                 ),
                                 Text(
                                     "You have 5min left from reaching your next drinking goal today",
                                     textAlign: TextAlign.left,
-                                    style: TextStyle(color: Color(0xFF214458))
+                                    style: TextStyle(
+                                        color: Color(0xFF214458)
+                                    )
                                 ),
                               ]
                           ),
