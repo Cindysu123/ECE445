@@ -78,15 +78,24 @@ class _EditUserInfoDialogState extends State<EditUserInfoDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text('Cancel'),
+          child: const Text(
+              'Cancel',
+            style: TextStyle(
+              color: Color(0xFF2A698E)
+            ),
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         TextButton(
-          child: const Text('Save'),
+          child: const Text(
+              'Save',
+            style: TextStyle(
+              color: Color(0xFF2A698E)
+            ),
+          ),
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
-              // Save the updated info here or pass it back to the parent widget
               Navigator.of(context).pop();
             }
           },

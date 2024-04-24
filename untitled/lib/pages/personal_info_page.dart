@@ -5,7 +5,7 @@ class PersonalInfoPage extends StatefulWidget {
   final String username;
   final String password;
 
-  PersonalInfoPage({Key? key, required this.username, required this.password}) : super(key: key);
+  const PersonalInfoPage({Key? key, required this.username, required this.password}) : super(key: key);
 
   @override
   _PersonalInfoPageState createState() => _PersonalInfoPageState();
@@ -21,7 +21,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -41,12 +41,12 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    const Text(
                       '👤 About You:',
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF2A698E)),
                     ),
                     const SizedBox(height: 20),
-                    Text(
+                    const Text(
                       'Please provide the following information to calculate your daily water intake.',
                       style: TextStyle(fontSize: 18, color: Color(0xFF2A698E)),
                     ),
@@ -69,22 +69,22 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     ),
                     TextField(
                       controller: ageController,
-                      decoration: InputDecoration(labelText: 'Age (years)'),
+                      decoration: const InputDecoration(labelText: 'Age (years)'),
                       keyboardType: TextInputType.number,
                     ),
                     TextField(
                       controller: weightController,
-                      decoration: InputDecoration(labelText: 'Weight (kg)'),
+                      decoration: const InputDecoration(labelText: 'Weight (kg)'),
                       keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 20),
                     Row(
                       children: [
-                        Text(
+                        const Text(
                           "Physical Activity Level:",
                           style: TextStyle(color: Colors.blue),
                         ),
-                        SizedBox(width: 10),  // Add some spacing
+                        const SizedBox(width: 10),
                         Expanded(
                           child: DropdownButton<int>(
                             isExpanded: true,
@@ -127,7 +127,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                           ),
                         );
                       },
-                      child: Text('Calculate My Daily Water Intake'),
+                      child: const Text('Calculate My Daily Water Intake'),
                     ),
                   ],
                 ),

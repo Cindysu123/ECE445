@@ -11,7 +11,7 @@ class WaterIntakePage extends StatelessWidget {
   final double weight;
   final int activityLevel;
 
-  WaterIntakePage({
+  const WaterIntakePage({
     Key? key,
     required this.username,
     required this.password,
@@ -23,7 +23,7 @@ class WaterIntakePage extends StatelessWidget {
 
   Future<void> finishSignUp(BuildContext context) async {
     double waterIntake = calculateWaterIntake();
-    var url = Uri.parse('http://10.0.2.2:3001/api/signup');
+    var url = Uri.parse('http://3.95.55.44:3001/api/signup');
     var response = await http.post(
       url,
       headers: {"Content-Type": "application/json"},
@@ -39,28 +39,35 @@ class WaterIntakePage extends StatelessWidget {
     );
 
     if (response.statusCode == 200) {
-      // Navigate to the login page and remove all previous routes
-      // This is as close to a "restart" as we can get without actually restarting the app
+      // Navigate to the login page
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage(onLoginSuccess: (userData) {
-          // Once the user logs in, this will execute. You can navigate to another route or perform other actions as needed.
-          // Example: Navigate to the home screen
-          // Navigator.pushReplacementNamed(context, '/home', arguments: userData);
-        })),
-            (Route<dynamic> route) => false, // This condition ensures all other routes are removed
+        MaterialPageRoute(
+          builder: (context) => LoginPage(onLoginSuccess: (userData) {
+            // You might want to handle user data here or navigate to another page.
+            // For example, you might set user data in state and update the UI.
+            print("User logged in successfully.");
+          }),
+        ),
+            (Route<dynamic> route) => false,
       );
     } else {
-      // Handle the case where the signup failed
+      // Display error message from server if available, otherwise a generic message
+      var message = 'Failed to create user. Please try again.';
+      if (response.body.isNotEmpty) {
+        var data = jsonDecode(response.body);
+        message = data['message'] ?? message; // Use server-provided message if available
+      }
+
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Signup Failed'),
-            content: Text('Failed to create user. Please try again.'),
+            title: const Text('Signup Failed'),
+            content: Text(message),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop(); // Dismiss the dialog
                 },
@@ -79,7 +86,7 @@ class WaterIntakePage extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -100,17 +107,17 @@ class WaterIntakePage extends StatelessWidget {
                 children: [
                   Text(
                     'Hello, $username! Based on your profile, you should drink approximately ${waterIntake.toStringAsFixed(2)} ml of water daily.',
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    style: const TextStyle(fontSize: 18, color: Colors.black),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () => finishSignUp(context),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, // Button color
-                      onPrimary: Colors.white, // Text color
+                      backgroundColor: Colors.blue, // Button color
+                      foregroundColor: Colors.white, // Text color
                     ),
-                    child: Text('Finish Sign Up'),
+                    child: const Text('Finish Sign Up'),
                   ),
                 ],
               ),
@@ -122,11 +129,22 @@ class WaterIntakePage extends StatelessWidget {
   }
 
   double calculateWaterIntake() {
-    double baseWaterIntake = 35.0 * weight; // 35 ml per kg as a base assumption
+    double baseWaterIntake = 35.0 * weight;
+
     if (activityLevel == 2) {
-      baseWaterIntake *= 1.2; // 20% more for moderate activity
+      baseWaterIntake *= 1.2;
     } else if (activityLevel == 3) {
-      baseWaterIntake *= 1.5; // 50% more for high activity
+      baseWaterIntake *= 1.5;
+    }
+
+    if (gender == 'Male') {
+      baseWaterIntake *= 1.1;
+    }
+
+    if (age < 18) {
+      baseWaterIntake *= 0.9;
+    } else if (age > 50) {
+      baseWaterIntake *= 0.95;
     }
     return baseWaterIntake;
   }

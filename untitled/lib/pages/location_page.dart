@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// Implement the location map
+
 class LocationPage extends StatelessWidget {
   const LocationPage({super.key});
 

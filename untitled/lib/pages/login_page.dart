@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:3001/api/login'),
+      Uri.parse('http://3.95.55.44:3001/api/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     'Log In',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF2A698E)),
                   ),
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("First time user?"),
+                      const Text("First time user?"),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                             MaterialPageRoute(builder: (context) => SignUpPage()),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           "Sign Up Here",
                           style: TextStyle(
                             color: Colors.blue,
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     onPressed: _login,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF4a8bb1),
+                      backgroundColor: const Color(0xFF4a8bb1),
                     ),
                     child: const Text('Login'),
                   ),

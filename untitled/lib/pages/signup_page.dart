@@ -6,11 +6,13 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  SignUpPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -29,7 +31,7 @@ class SignUpPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     'Sign Up',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF2A698E)),
                   ),
@@ -42,28 +44,25 @@ class SignUpPage extends StatelessWidget {
                     decoration: const InputDecoration(labelText: 'Password'),
                     obscureText: true,
                   ),
-                  TextField(
-                    decoration: const InputDecoration(labelText: 'Confirm Password'),
+                  const TextField(
+                    decoration: InputDecoration(labelText: 'Confirm Password'),
                     obscureText: true,
                   ),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Already have an account?"),
+                      const Text("Already have an account?"),
                       GestureDetector(
                         onTap: () {
-                          // Pass a function that does something after successful login
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => LoginPage(onLoginSuccess: (userData) {
-                              // Here, you define what happens after login success.
-                              // This could navigate to a home screen or perform another action
-                              Navigator.popUntil(context, ModalRoute.withName('/')); // Example action
+                              Navigator.popUntil(context, ModalRoute.withName('/'));
                             })),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           "Log in",
                           style: TextStyle(
                             color: Colors.blue,
@@ -86,7 +85,6 @@ class SignUpPage extends StatelessWidget {
                         ),
                       );
                     },
-                    // existing button style
                     child: const Text('Sign Up'),
                   ),
                 ],

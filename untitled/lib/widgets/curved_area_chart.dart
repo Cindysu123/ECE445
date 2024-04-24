@@ -3,6 +3,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+//Fix the range in x axis, should be change based on the selected dated
+//Should also be based on the current date
+
 class CurvedAreaChart extends StatefulWidget {
   final String username;
   final DateTime startDate;
@@ -25,7 +28,7 @@ class _CurvedAreaChartState extends State<CurvedAreaChart> {
 
     try {
       final response = await http.get(
-          Uri.parse('http://10.0.2.2:3001/api/water_intake_range/${widget.username}?start_date=$startDateStr&end_date=$endDateStr')
+          Uri.parse('http://3.95.55.44:3001/api/water_intake_range/${widget.username}?start_date=$startDateStr&end_date=$endDateStr')
       );
       if (response.statusCode == 200) {
         List<dynamic> jsonResponse = jsonDecode(response.body);
@@ -38,11 +41,9 @@ class _CurvedAreaChartState extends State<CurvedAreaChart> {
         }
         return spots;
       } else {
-        // print('Server responded with error status: ${response.statusCode}');
         throw Exception('Failed to load water intake data');
       }
     } catch (e) {
-      // print('Error fetching water intake data: $e');
       return List.generate(widget.endDate.difference(widget.startDate).inDays + 1, (index) => FlSpot(index.toDouble(), 0));
     }
   }
@@ -93,11 +94,10 @@ class _CurvedAreaChartState extends State<CurvedAreaChart> {
                       ),
                       getTitles: (value) {
                         final date = DateTime(2024, 02, 04).add(Duration(days: value.toInt()));
-                        // Return the label for each day
                         return '${date.month}/${date.day}';
                       },
                       margin: 8,
-                      interval: 1, // Set interval to 1 to show every label
+                      interval: 1,
                     ),
                     leftTitles: SideTitles(
                       showTitles: true,

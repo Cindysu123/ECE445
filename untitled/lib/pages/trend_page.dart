@@ -12,7 +12,6 @@ class TrendPage extends StatefulWidget {
 }
 
 class _TrendPageState extends State<TrendPage> {
-  // Variable to keep track of the selected index
   int selectedIndex = 0; // By default, the first one is selected
   DateTime startDate = DateTime(2024, 02, 04); // Week start date
   DateTime endDate = DateTime(2024, 02, 10); // Week end date
@@ -77,7 +76,7 @@ class _TrendPageState extends State<TrendPage> {
                   ),
               ],
             ),
-            Text("${startDate.toIso8601String()} - ${endDate.toIso8601String()}"),
+            Text("${startDate.year}/${startDate.month}/${startDate.day} to ${startDate.year}/${endDate.month}/${endDate.day}"),
             CurvedAreaChart(
                 key: ValueKey("$startDate to $endDate"), // Use the date range as the ValueKey
                 username: widget.username,

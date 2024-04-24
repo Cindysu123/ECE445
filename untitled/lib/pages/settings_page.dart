@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../widgets/edit_user_info_dialog.dart';
 
+// Implement edit user information
+// Implement achievement (if have time)
+
 class SettingsPage extends StatelessWidget {
   final Map<String, dynamic>? userData;
 
@@ -8,7 +11,6 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Default user data, adjust according to your needs or fetch from a local store
     final Map<String, dynamic> defaultUserData = {
       'username': 'Default User',
       'gender': 1,
@@ -16,7 +18,6 @@ class SettingsPage extends StatelessWidget {
       'weight': '1',
     };
 
-    // Use userData if provided, otherwise fallback to defaultUserData
     final user = userData ?? defaultUserData;
 
     return Scaffold(
@@ -27,16 +28,16 @@ class SettingsPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.white, Color(0xFF69A8CD)], // Adjusted for visibility
+            colors: [Colors.white, Color(0xFF69A8CD)],
           ),
         ),
         child: SingleChildScrollView(
           child: IntrinsicHeight(
-            child: Column( // Changed from Center to Column
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(20), // Padding inside the container
+                  padding: const EdgeInsets.all(20),
                   margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -69,9 +70,9 @@ class SettingsPage extends StatelessWidget {
                         )
                       ),
                       Image.asset('lib/assets/Profile.png'),
-                      const SizedBox(height: 10), // Spacing between image and text
+                      const SizedBox(height: 10),
                       Text(user['username']),
-                      const SizedBox(height: 10), // Spacing between items
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -86,7 +87,7 @@ class SettingsPage extends StatelessWidget {
                           Text('${user['age']}'),
                         ],
                       ),
-                      const SizedBox(height: 10), // Spacing between items
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -94,7 +95,7 @@ class SettingsPage extends StatelessWidget {
                           Text('${user['weight']}kg'),
                         ],
                       ),
-                      const SizedBox(height: 10), // Spacing between items
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -106,44 +107,44 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(20), // Padding inside the container
-                  margin: const EdgeInsets.all(10), // Margin outside the container
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10), // Optional: to add rounded corners
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 5,
                         blurRadius: 7,
-                        offset: const Offset(0, 3), // changes position of shadow
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
-                  child: Column( // Added the child property for Column
-                    mainAxisSize: MainAxisSize.min, // Container size fits the content
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
                         children: const [
                           Icon(Icons.check_circle_outline_rounded),
-                          SizedBox(width: 10), // Added for spacing
+                          SizedBox(width: 10),
                           Text('In Progress'),
-                          SizedBox(width: 10), // Added for spacing
+                          SizedBox(width: 10),
                           Text('Change My Goal'),
                         ],
                       ),
-                      const SizedBox(height: 10), // Added for spacing between rows
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text('80 Days Streak'),
-                          SizedBox(width: 10), // Added for spacing
+                          SizedBox(width: 10),
                           Text('30/80'),
                         ],
                       ),
-                      const SizedBox(height: 10), // Added for spacing before the progress bar
+                      const SizedBox(height: 10),
                       LinearProgressIndicator(
-                        value: 0.375, // Adjusted the value to match 30/80 days
+                        value: 0.375,
                         backgroundColor: Colors.grey[200],
                         valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF2A698E)),
                       ),
@@ -151,31 +152,31 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(20), // Padding inside the container
-                  margin: const EdgeInsets.all(10), // Margin outside the container
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10), // Optional: to add rounded corners
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 5,
                         blurRadius: 7,
-                        offset: const Offset(0, 3), // changes position of shadow
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
-                  child: Column( // Added the child property for Column
-                    mainAxisSize: MainAxisSize.min, // Container size fits the content
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
                         children: const [
                           Icon(Icons.auto_awesome_rounded),
-                          SizedBox(width: 10), // Added for spacing
+                          SizedBox(width: 10),
                           Text('Achievements'),
                         ],
                       ),
-                      const SizedBox(height: 10), // Added for spacing between rows
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
